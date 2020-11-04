@@ -1,0 +1,59 @@
+---
+title: "Create markdown headers from a chunk"
+author: "Laurent Cauquil"
+date: "22/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Create one header in a chunk
+```{r, results = "asis"}
+cat(sprintf("### Header level 3"))
+```
+
+<Br><Br>
+
+## Create several headers in a chunk with a loop
+
+### Data.frame: content of each section
+```{r}
+library(stringi)
+
+set.seed(12345) ## reproducibility
+input <- data.frame(
+  name = 1:3,
+  text = stri_rand_lipsum(3),  ## create 3 lorem ipsum paragraph
+  stringsAsFactors = FALSE)
+
+## data
+input
+```
+
+### Output pattern for all sections
+```{r}
+template <- "## This is paragraph n°%s
+%s
+
+**Number of characters**: `%1i`
+
+" ## don't forget to add end of line
+## format output
+template
+```
+
+### Create sections
+```{r, results = "asis"}
+## asis:    avoid knitr to add another output template
+## sprintf: avoid R to add other characters such as quotes
+for (i in seq(nrow(input))) {
+  current <- input[i, ]
+  cat(sprintf(template, ## pattern
+              current$name, ## number of the section
+              current$text, ## text of the section
+              nchar(stri_rand_lipsum(3)[i])))  ## return number of characters for each section
+}
+```
+
