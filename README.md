@@ -1,1 +1,1 @@
-## List of script
+## List of scripts
