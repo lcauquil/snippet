@@ -1,5 +1,6 @@
 dupli_sample <- function(data, val)
 {
+  require(dplyr)
   ifelse(class(data) == "phyloseq",
          tmp <- as.vector(data.frame(sample_data(data))[, val]),
          ifelse(class(data) == "data.frame",
@@ -12,4 +13,8 @@ dupli_sample <- function(data, val)
   df_rle |> 
     arrange(desc(len)) |> 
     filter(len > 1)
+  
+  ## dupli_sample(mtcars, "cyl")
+  ## dupli_sample(frogs.data, "GPS")
+  
 }
